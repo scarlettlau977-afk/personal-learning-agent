@@ -65,20 +65,9 @@ def execute_tool(tool_name, arguments):
     return calculator(a, b, arguments["operation"])
 
 
-def main():
-    api_key = os.getenv("MODELFLARE_API_KEY")
 
-    if not api_key:
-        raise ValueError(
-         "Please set the MODELFLARE_API_KEY environment variable."
-    )
-
-    client = OpenAI(
-        api_key=api_key,
-        base_url=BASE_URL,
-    )
-
-    task = input("What do you want your agent to do? ")
+def run_agent(client, task, max_steps=5):
+    """Run the agent loop until it produces a final answer."""
 
     messages = [
         {
@@ -93,11 +82,6 @@ def main():
         {"role": "user", "content": task},
     ]
 
-    # Ask the model what to do.
-
-    # Keep asking the model until it gives a final answer.
-    max_steps = 5
-
     for step in range(max_steps):
         print(f"\nAgent step: {step + 1}")
 
@@ -109,16 +93,12 @@ def main():
         )
 
         message = response.choices[0].message
-
-        # Save the model's response in the conversation history.
         messages.append(message.model_dump(exclude_none=True))
 
-        # If the model does not request a tool, finish the task.
         if not message.tool_calls:
             print("\nAgent:", message.content)
-            break
+            return message.content
 
-        # Execute each tool requested by the model.
         for tool_call in message.tool_calls:
             tool_name = tool_call.function.name
             arguments = json.loads(tool_call.function.arguments)
@@ -133,7 +113,6 @@ def main():
 
             print(f"Tool result: {result}")
 
-            # Return the tool result to the model.
             messages.append(
                 {
                     "role": "tool",
@@ -142,10 +121,27 @@ def main():
                 }
             )
 
-    else:
-        print(
-            "\nAgent stopped: maximum number of steps reached."
+    print("\nAgent stopped: maximum number of steps reached.")
+    return None
+
+
+def main():
+    api_key = os.getenv("MODELFLARE_API_KEY")
+
+    if not api_key:
+        raise ValueError(
+            "Please set the MODELFLARE_API_KEY environment variable."
         )
+
+    client = OpenAI(
+        api_key=api_key,
+        base_url=BASE_URL,
+    )
+
+    task = input("What do you want your agent to do? ")
+
+    run_agent(client, task, max_steps=5)
+
 
 if __name__ == "__main__":
     main()
