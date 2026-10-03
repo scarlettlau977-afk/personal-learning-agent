@@ -174,7 +174,7 @@ personal-learning-agent/
 
 ```bash
 
-git clone <YOUR\_GITHUB\_REPOSITORY\_URL>
+git clone https://github.com/scarlettlau977-afk/personal-learning-agent
 
 cd personal-learning-agent
 
