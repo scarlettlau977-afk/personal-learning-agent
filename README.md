@@ -1,6 +1,6 @@
 
 
-\# Personal Learning Agent
+\# scarlett's-agent-demo
 
 
 
@@ -174,9 +174,9 @@ personal-learning-agent/
 
 ```bash
 
-git clone https://github.com/scarlettlau977-afk/personal-learning-agent
+git clone https://github.com/scarlettlau977-afk/scarlett's-agent-demo
 
-cd personal-learning-agent
+cd scarlett's-agent-demo
 
 ```
 
