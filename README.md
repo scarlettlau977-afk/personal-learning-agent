@@ -174,9 +174,9 @@ personal-learning-agent/
 
 ```bash
 
-git clone https://github.com/scarlettlau977-afk/scarlett's-agent-demo
+git clone https://github.com/scarlettlau977-afk/scarlett-s-agent-demo
 
-cd scarlett's-agent-demo
+cd scarlett-s-agent-demo
 
 ```
 
